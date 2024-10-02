@@ -1,0 +1,17 @@
+AllCops:
+  RubyInterpreters:
+    - ruby
+    - macruby
+    - rake
+    - jruby
+    - rbx
+
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+MethodParameterName:
+  Enabled: false
