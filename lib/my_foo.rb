@@ -7,7 +7,6 @@ class StockPrice
     @arr = {}
     @max = -999
     @min = nil
-    @top = nil
     @top_idx = -1
     @max_idx = -1
   end
@@ -25,7 +24,7 @@ class StockPrice
     if @max_idx == idx
       # maxの値が変わる場合、maxを更新する
       @max = @arr.values.max
-      @max_idx = @arr.key(@max)
+      @max_idx = @arr.key @max
     else
       if @max < price
         @max = price
@@ -33,7 +32,6 @@ class StockPrice
       end
     end
     @min = nil
-    @top = nil
     nil
   end
 
