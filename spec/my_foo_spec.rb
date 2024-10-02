@@ -4,20 +4,19 @@ require 'my_foo'
 
 describe MyFoo do
   context '.test' do
-    it 'returns 0' do
+    it 'test case 0' do
       expect(MyFoo.test(
-        [2,7,11,15], 9
-      )).to eq [0, 1]
+        ["StockPrice", "update", "update", "current", "maximum", "update", "maximum", "update", "minimum"],
+        [[], [1, 10], [2, 5], [], [], [1, 3], [], [4, 2], []]
+      )).to eq [nil, nil, nil, 5, 10, nil, 5, nil, 2]
     end
-    it 'returns 0' do
+
+    it 'test case 1' do
       expect(MyFoo.test(
-        [3,2,4], 6
-      )).to eq [1,2]
+        ["StockPrice", "update", "update", "update", "current", "maximum", "update", "maximum", "update", "minimum"],
+        [[], [1, 10], [3, 20], [2, 5], [], [], [1, 3], [], [4, 2], []]
+      )).to eq [nil, nil, nil, nil, 20, 20, nil, 20, nil, 2]
     end
-    it 'returns 1' do
-      expect(MyFoo.test(
-      [3,3], 6
-      )).to eq [0,1]
-    end
+    
   end
 end

@@ -1,39 +1,94 @@
 # frozen_string_literal: true
 $dbg = true
 
-N = 301
-N = 6 if $dbg
 
-def maximal_square(matrix)
-  $arr = Array.new(N) { Array.new(N) {0} }
-  # $arr[0] = matrix[0]
-  top = matrix.length
-  max_val = 0
-  for y in 0..top-1
-    for x in 0..(matrix[y].length) - 1
-      
-      if matrix[y][x] == "1"
-        $arr[y][x] = 1
-        if y > 0 && x > 0
-          $arr[y][x] = [$arr[y-1][x], $arr[y][x-1], $arr[y-1][x-1]].min + 1
-        end
-        max_val = $arr[y][x] if $arr[y][x] > max_val
-      end
-
-    end
+class StockPrice
+  def initialize()
+    @arr = {}
+    @max = -999
+    @min = nil
+    @top = nil
+    @top_idx = -1
+    @max_idx = -1
   end
-  $arr.each{|x| puts x.join("\t")} if $dbg
-  max_val**2
+
+
+=begin
+  :type idx: Integer
+  :type price: Integer
+  :rtype: Void
+=end
+  def update(idx, price)
+    @arr[idx] = (price)
+
+    @top_idx = idx if @top_idx < idx
+    if @max_idx == idx
+      # maxの値が変わる場合、maxを更新する
+      @max = @arr.values.max
+      @max_idx = @arr.key(@max)
+    else
+      if @max < price
+        @max = price
+        @max_idx = idx
+      end
+    end
+    @min = nil
+    @top = nil
+    nil
+  end
+
+
+=begin
+  :rtype: Integer
+=end
+  def current()
+    @arr[@top_idx]
+  end
+
+
+=begin
+  :rtype: Integer
+=end
+  def maximum()
+    # hash から max valueをさがす
+    return @max unless @max.nil?
+    @max = @arr.values.max
+  end
+
+
+=begin
+  :rtype: Integer
+=end
+  def minimum()
+    return @min unless @min.nil?
+    @min = @arr.values.min
+  end
+
+
 end
+
+# Your StockPrice object will be instantiated and called as such:
+# obj = StockPrice.new()
+# obj.update(timestamp, price)
+# param_2 = obj.current()
+# param_3 = obj.maximum()
+# param_4 = obj.minimum()
 
 class MyFoo
-  def self.test matrix
-    maximal_square(matrix)
+  def self.test cmds, args
+    sp = StockPrice.new
+
+    outputs = []
+    rtv = nil
+    cmds.each_with_index do |cmd, i|
+      arg = args[i]
+      rtv = nil and sp = StockPrice.new if cmd == 'StockPrice'
+      rtv = sp.update arg[0], arg[1] if cmd == 'update'
+      rtv = sp.current if cmd == 'current'
+      rtv = sp.maximum if cmd == 'maximum'
+      rtv = sp.minimum if cmd == 'minimum'
+      outputs.push(rtv)
+    end
+    outputs
   end
 end
-
-
-# 1 1 1 1
-# 1 2 2 2
-# 1 2 3 3
-# 1 2 3 4
