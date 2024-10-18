@@ -79,3 +79,4 @@ end
 guard :shell do
   watch(/(.*).txt/) {|m| `tail #{m[0]}` }
 end
+watch(%r{^lib/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
