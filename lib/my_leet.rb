@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-$dbg = true
-$dbg = false
+$dbg = `uname -a`.include?('Darwin') # set debug mode only for mac
 
 
 # @param {Integer[]} chalk
