@@ -3,7 +3,6 @@ This repository is TDD based problem solver for Leetcode.
 ### Set up
 ```
 bundle install --path .bundle
-bundle exec guard init
 ```
 
 ### Start to watch
