@@ -1,29 +1,32 @@
 # frozen_string_literal: true
-$dbg = `uname -a`.include?('Darwin') # set debug mode only for mac
+$dbg=`uname -a`.include?('Darwin') # set debug mode only for mac
 
-# @param {String} path
-# @return {String}
-def simplify_path(path)
+# @param {String} word1
+# @param {String} word2
+# @return {Integer}
+def min_distance(word1, word2)
+  m, n = word1.size, word2.size
+  return m + n if m * n == 0
 
-  components = path.split('/')
-  stack = []
-  
-  components.each do |component|
-    case component
-    when '', '.'
-      next
-    when '..'
-      stack.pop unless stack.empty?
-    else
-      stack.push(component)
+  dp = Array.new(m + 1) { Array.new(n + 1) }
+  (0..m).each { |i| dp[i][0] = i }
+  (0..n).each { |j| dp[0][j] = j }
+
+  (1..m).each do |i|
+    (1..n).each do |j|
+      left = dp[i - 1][j] + 1
+      down = dp[i][j - 1] + 1
+      left_down = dp[i - 1][j - 1]
+      left_down += 1 if word1[i - 1] != word2[j - 1]
+      dp[i][j] = [left, down, left_down].min
     end
   end
-  
-  '/' + stack.join('/')
+
+  dp[m][n]
 end
 
 class MyLeet
-  def self.run path
-    simplify_path path
+  def self.run(word1, word2)
+    min_distance(word1, word2)
   end
 end
