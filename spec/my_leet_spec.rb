@@ -7,16 +7,16 @@ describe MyLeet do
     it 'test case 0' do
       expect(
         MyLeet.run( # ↓ inputs
-          [[1,1,1],[1,0,1],[1,1,1]]
+          2, [[1,2]]
         ) # ↓ output should be
-      ).to eq [[1,0,1],[0,0,0],[1,0,1]]
+      ).to eq 2
     end
     it 'test case 1' do
       expect(
         MyLeet.run( # ↓ inputs
-          [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+          3, [[1,3],[2,3]]
         ) # ↓ output should be
-      ).to eq [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+      ).to eq 3
     end
 
   end

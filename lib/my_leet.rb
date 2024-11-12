@@ -1,36 +1,26 @@
+# frozen_string_literal: true
+$dbg=`uname -a`.include?('Darwin') # set debug mode only for mac
 
-def set_zeroes(matrix)
-  rows = matrix.size
-  cols = matrix[0].size
-  row_zero = false
-  col_zero = false
-
-  (0...rows).each { |i| row_zero = true if matrix[i][0] == 0 }
-  (0...cols).each { |j| col_zero = true if matrix[0][j] == 0 }
-
-  (1...rows).each do |i|
-    (1...cols).each do |j|
-      if matrix[i][j] == 0
-        matrix[i][0] = 0
-        matrix[0][j] = 0
-      end
-    end
+# @param {Integer} n
+# @param {Integer[][]} trust
+# @return {Integer}
+def find_judge(n, trust)
+  return 1 if n == 1
+  return -1 if trust.length == 0
+  trust_hash = {}
+  trusted_hash = {}
+  trust.each do |t|
+    trust_hash[t[0]] = true
+    trusted_hash[t[1]] = trusted_hash[t[1]] ? trusted_hash[t[1]] + 1 : 1
   end
-
-  (1...rows).each do |i|
-    (1...cols).each do |j|
-      matrix[i][j] = 0 if matrix[i][0] == 0 || matrix[0][j] == 0
-    end
+  trusted_hash.each do |k, v|
+    return k if v == n - 1 && !trust_hash[k]
   end
-
-  (0...rows).each { |i| matrix[i][0] = 0 if row_zero }
-  (0...cols).each { |j| matrix[0][j] = 0 if col_zero }
-
-  matrix
+  -1
 end
 
 class MyLeet
-  def self.run(matrix)
-    set_zeroes(matrix)
+  def self.run(n, trust)
+    find_judge(n, trust)
   end
 end
