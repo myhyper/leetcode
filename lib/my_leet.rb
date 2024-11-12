@@ -1,32 +1,36 @@
-# frozen_string_literal: true
-$dbg=`uname -a`.include?('Darwin') # set debug mode only for mac
 
-# @param {String} word1
-# @param {String} word2
-# @return {Integer}
-def min_distance(word1, word2)
-  m, n = word1.size, word2.size
-  return m + n if m * n == 0
+def set_zeroes(matrix)
+  rows = matrix.size
+  cols = matrix[0].size
+  row_zero = false
+  col_zero = false
 
-  dp = Array.new(m + 1) { Array.new(n + 1) }
-  (0..m).each { |i| dp[i][0] = i }
-  (0..n).each { |j| dp[0][j] = j }
+  (0...rows).each { |i| row_zero = true if matrix[i][0] == 0 }
+  (0...cols).each { |j| col_zero = true if matrix[0][j] == 0 }
 
-  (1..m).each do |i|
-    (1..n).each do |j|
-      left = dp[i - 1][j] + 1
-      down = dp[i][j - 1] + 1
-      left_down = dp[i - 1][j - 1]
-      left_down += 1 if word1[i - 1] != word2[j - 1]
-      dp[i][j] = [left, down, left_down].min
+  (1...rows).each do |i|
+    (1...cols).each do |j|
+      if matrix[i][j] == 0
+        matrix[i][0] = 0
+        matrix[0][j] = 0
+      end
     end
   end
 
-  dp[m][n]
+  (1...rows).each do |i|
+    (1...cols).each do |j|
+      matrix[i][j] = 0 if matrix[i][0] == 0 || matrix[0][j] == 0
+    end
+  end
+
+  (0...rows).each { |i| matrix[i][0] = 0 if row_zero }
+  (0...cols).each { |j| matrix[0][j] = 0 if col_zero }
+
+  matrix
 end
 
 class MyLeet
-  def self.run(word1, word2)
-    min_distance(word1, word2)
+  def self.run(matrix)
+    set_zeroes(matrix)
   end
 end
